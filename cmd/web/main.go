@@ -24,19 +24,10 @@ func main() {
 		logger: logger,
 	}
 
-	// set up Server
-	mux := http.NewServeMux()
+	// set up server and route declarations
+	mux := app.routes()
 
-	// file server and handlers
-	fileServer := http.FileServer(http.Dir("./ui/static/"))
-	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
-
-	mux.HandleFunc("GET /{$}", app.home)
-	mux.HandleFunc("GET /snippet/view/{id}", app.snippetView)
-	mux.HandleFunc("GET /snippet/create", app.snippetCreate)
-	mux.HandleFunc("POST /snippet/create", app.snippetCreatePost)
-
-	// logging
+	// run the server and log any info and errors
 	logger.Info("starting server", "addr", *addr)
 	logger.Error(http.ListenAndServe(*addr, mux).Error())
 
