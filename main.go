@@ -13,7 +13,7 @@ func main() {
 	// restrict this route to exact matches on '/' only
 	mux.HandleFunc("/{$}", home)
 
-	mux.HandleFunc("/snippet/view{id}", snippetView)
+	mux.HandleFunc("/snippet/view/{id}", snippetView)
 	mux.HandleFunc("/snippet/create", snippetCreate)
 
 	log.Printf("starting server on :%d", port)
