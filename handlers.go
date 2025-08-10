@@ -22,3 +22,7 @@ func snippetView(w http.ResponseWriter, r *http.Request) {
 func snippetCreate(w http.ResponseWriter, r *http.Request) {
 	fmt.Fprintf(w, "Display a form for creating a new snippet...")
 }
+
+func snippetCreatePost(w http.ResponseWriter, r *http.Request) {
+	fmt.Fprintf(w, "Save a new snippet...")
+}
