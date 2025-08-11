@@ -1,17 +1,21 @@
 package main
 
 import (
-	"log"
+	"flag"
+	"log/slog"
 	"net/http"
+	"os"
 )
 
-const port = 8080
-
 func main() {
+	addr := flag.String("addr", ":8080", "HTTP network address")
+	flag.Parse()
+
+	logger := slog.New(slog.NewTextHandler(os.Stdout, nil))
+
 	mux := http.NewServeMux()
 
 	fileServer := http.FileServer(http.Dir("./ui/static/"))
-
 	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
 
 	// restrict this route to exact matches on '/' only
@@ -21,6 +25,8 @@ func main() {
 	mux.HandleFunc("GET /snippet/create", snippetCreate)
 	mux.HandleFunc("POST /snippet/create", snippetCreatePost)
 
-	log.Printf("starting server on :%d", port)
-	log.Fatal(http.ListenAndServe(":8080", mux))
+	logger.Info("starting server", "addr", *addr)
+
+	logger.Error(http.ListenAndServe(*addr, mux).Error())
+	os.Exit(1)
 }
