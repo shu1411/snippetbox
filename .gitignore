@@ -1,2 +1,5 @@
 # .http for testing requests
 requests.http
+
+# environment variables
+.env
