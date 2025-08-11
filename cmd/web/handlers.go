@@ -7,6 +7,7 @@ import (
 )
 
 func home(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("Server", "Go")
 	fmt.Fprintf(w, "Hello from Snippetbox")
 }
 
@@ -24,5 +25,6 @@ func snippetCreate(w http.ResponseWriter, r *http.Request) {
 }
 
 func snippetCreatePost(w http.ResponseWriter, r *http.Request) {
+	w.WriteHeader(http.StatusCreated)
 	fmt.Fprintf(w, "Save a new snippet...")
 }
