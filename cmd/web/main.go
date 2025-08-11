@@ -10,6 +10,10 @@ const port = 8080
 func main() {
 	mux := http.NewServeMux()
 
+	fileServer := http.FileServer(http.Dir("./ui/static/"))
+
+	mux.Handle("GET /static/", http.StripPrefix("/static", fileServer))
+
 	// restrict this route to exact matches on '/' only
 	mux.HandleFunc("GET /{$}", home)
 
